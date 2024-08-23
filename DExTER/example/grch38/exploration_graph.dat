@@ -1,0 +1,29 @@
+strict digraph G {
+    labelloc="t";
+    label="Exploration";
+    graph [fontname = "helvetica"];
+    node [fontname = "helvetica"];
+    edge [fontname = "helvetica"];
+    graph [rankdir=LR]
+    subgraph cluster_01 {
+        graph [bgcolor=snow3]
+        node [shape=plaintext]
+        label = "Legend";
+        "expansion" -> "   " [color=blue];
+        "  control  " -> "  " [color=green];
+        "segmentation" -> "    " [color=magenta];
+    }
+    subgraph cluster_02 {
+        graph [bgcolor=snow3]
+        node [shape=plaintext]
+        label = "IUPAC extended codes";
+        "R" -> "  A or G   ";
+        "Y" -> "  T or C   ";
+        "M" -> "  A or C   ";
+        "K" -> "  G or T   ";
+        "S" -> "  G or C   ";
+        "W" -> "  A or T   ";
+        "N" -> "    any    ";
+    }
+    subgraph cluster_03 {
+        node [shape=record, color=lightblue2, style=filled]

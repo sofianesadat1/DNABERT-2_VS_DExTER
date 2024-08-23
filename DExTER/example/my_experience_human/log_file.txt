@@ -1,0 +1,98 @@
+(base) EM36_FR5@em36-fr5-workbench-prod:~/workspace/DExTER/example$ bash run_example_human.bash
+Mise à jour de pip...
+Requirement already satisfied: pip in /opt/conda/lib/python3.10/site-packages (24.0)
+bitarray est déjà installé.
+Graphviz est déjà installé.
+Exécution du script principal...
+------------------------------------------------------------------------------------------------------------------------------------------
+| DExTER - Christophe Menichelli, Vincent Guitard, Sophie Lèbre, Jose-Juan Lopez-Rubio, Charles-Henri Lecellier, Laurent Bréhélin (2020) |
+------------------------------------------------------------------------------------------------------------------------------------------
+contact: christophe.menichelli@lirmm.fr & laurent.brehelin@lirmm.fr
+
+Processing arguments...
+Testing requirements...
+Clearing directories...
+Generating sequences sets...
+Using 14940 sequences in training set and 7470 sequences in testing set.
+Extract expression data...
+100%|███████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 56203/56203 [00:00<00:00, 162345.04seq/s]
+Running pre-load procedure...
+45816it [00:00, 260553.08it/s]
+1 : -1
+2 : 8
+1 : -1
+2 : 8
+1 : -1
+2 : 8
+100%|██████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 16/16 [03:49<00:00, 14.36s/it]
+Exploring...
+Initialization of the broker...
+                                                                                 ┴ domains remaining: 16 ┴ domains done: 0 ┴ elapsed time: 0:02:18.946843 ┴                                                                                
+                                                                                 ├ domains remaining: 16 ├ domains done: 0 ├ elapsed time: 0:02:20.969846 ├                                                                                
+                                                                                ┤ domains remaining: 269 ┤ domains done: 70 ┤ elapsed time: 0:12:40.658353 ┤                                                                               
+                                                                                ┘ domains remaining: 269 ┘ domains done: 70 ┘ elapsed time: 0:12:41.670049 ┘                                                                               
+
+
+
+
+                                                                                ┴ domains remaining: 269 ┴ domains done: 70 ┴ elapsed time: 0:12:42.681157 ┴                                                                               
+                                                                                └ domains remaining: 269 └ domains done: 70 └ elapsed time: 0:12:43.687663 └                                                                               
+                                                                                ┤ domains remaining: 269 ┤ domains done: 70 ┤ elapsed time: 0:12:40.658353 ┤                                                                               
+                                                                                ┘ domains remaining: 269 ┘ domains done: 70 ┘ elapsed time: 0:12:41.670049 ┘                                                                               
+
+
+
+
+                                                                                ┴ domains remaining: 269 ┴ domains done: 70 ┴ elapsed time: 0:12:42.681157 ┴                                                                               
+                                                                                └ domains remaining: 269 └ domains done: 70 └ elapsed time: 0:12:43.687663 └                                                                               
+                                                                                ┤ domains remaining: 269 ┤ domains done: 70 ┤ elapsed time: 0:12:40.658353 ┤                                                                               
+                                                                                ┘ domains remaining: 269 ┘ domains done: 70 ┘ elapsed time: 0:12:41.670049 ┘                                                                               
+
+
+
+
+                                                                                ┴ domains remaining: 269 ┴ domains done: 70 ┴ elapsed time: 0:12:42.681157 ┴                                                                               
+                                                                                └ domains remaining: 269 └ domains done: 70 └ elapsed time: 0:12:43.687663 └                                                                               
+                                                                               ┬ domains remaining: 168 ┬ domains done: 442 ┬ elapsed time: 0:52:29.413885 ┬                                                                               
+                                                                               ┬ domains remaining: 122 ┬ domains done: 497 ┬ elapsed time: 1:08:11.522836 ┬                                                                               
+
+
+1 : -1                                                                         ┴ domains remaining: 133 ┴ domains done: 545 ┴ elapsed time: 1:18:03.851047 ┴                                                                               
+2 : 8
+                                                                                ┤ domains remaining: 44 ┤ domains done: 634 ┤ elapsed time: 2:08:49.596571 ┤                                                                               
+
+                                                                                ┘ domains remaining: 44 ┘ domains done: 634 ┘ elapsed time: 2:08:50.608215 ┘                                                                               
+
+
+
+
+
+                                                                                ├ domains remaining: 27 ├ domains done: 651 ├ elapsed time: 2:14:49.152327 ├                                                                               
+1 : -1                                                                          ┴ domains remaining: 9 ┴ domains done: 677 ┴ elapsed time: 2:31:08.164752 ┴                                                                                
+2 : 8
+                                                                                ┴ domains remaining: 4 ┴ domains done: 682 ┴ elapsed time: 2:36:03.427978 ┴                                                                                
+
+
+
+                                                                                ┘ domains remaining: 0 ┘ domains done: 686 ┘ elapsed time: 2:39:02.463475 ┘                                                                                
+Generation LASSO matrices...
+ -> ALL domains
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 149/149 [17:50<00:00,  7.19s/it]
+100%|████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████████| 149/149 [11:00<00:00,  4.43s/it]
+
+Computing LASSO...
+.LASSO on ALL domains
+-> nb_iter = 2610
+-> Cor = 0.6405363403762255
+-> (-0.4 * %CA.-125_684) + (0.02 * %GT.342_684) + (-0.02 * %AA.-125_684) + (0.02 * %AGT.-1196_-685) + (-0.01 * %AGT.-341_-1) + (0.05 * %GA.685_1196) + (0.03 * %AG.-684_-342) + (0.11 * %AG.1197_2000) + (-0.01 * %AGT.-125_125) + (-0.03 * %GAG.126_341) + (-0.01 * %GAG.685_1196) + (0.02 * %AG.-341_-126) + (-0.07 * %CG.-2000_2000) + (-0.02 * %AGT.342_684) + (0.14 * %AG.-125_125) + (-0.01 * %GT.685_2000) + (0.03 * %GCTGG.-2000_2000) + (-0.02 * %CAGG.-2000_-126) + (-0.02 * %GAG.342_684) + (0.07 * %CAG.-2000_-1197) + (0.05 * %ACT.-341_-126) + (0.06 * %CTC.-2000_-1197) + (0.11 * %GT.1_341) + (-0.1 * %GC.-2000_2000) + (-0.03 * %AG.-2000_-1197) + (0.03 * %CCAG.-2000_-685) + (0.02 * %CTC.-2000_0) + (0.24 * %CG.-125_341) + (0.06 * %GT.-341_-1) + (-0.02 * %AGA.-1196_-342) + (-0.02 * %AGA.-341_684) + (-0.04 * %GCTC.-684_684) + (-0.02 * %CT.-2000_-1197) + (0.12 * %AG.-2000_2000) + (-0.03 * %CT.342_684) + (0.04 * %CTC.342_684) + (-0.01 * %GGAG.0_684) + (-0.05 * %AGA.126_341) + (-0.05 * %AGA.1197_2000) + (-0.05 * %AAGA.685_2000) + (0.01 * %GAG.1197_2000) + (0.02 * %CAGG.-2000_-685) + (0.11 * %AC.-125_684) + (0.01 * %CTCC.-1925_684) + (0.02 * %GAG.-684_-342) + (0.05 * %CCTC.342_684) + (-0.03 * %GA.-125_125) + (0.06 * %CCTC.-2000_0) + (-0.03 * %GT.-1196_-685) + (-0.05 * %AGT.1_341) + (-0.01 * %GGTC.-1925_-685) + (-0.01 * %CTC.-341_-126) + (-0.03 * %AGA.-1196_-685) + (-0.11 * %GA.-2000_2000) + (-0.05 * %AT.-125_341) + (0.12 * %AC.-2000_2000) + (-0.01 * %CTCC.-2000_0) + (0.01 * %GAC.-341_-126) + (-0.02 * %GT.-684_-342) + (-0.05 * %ACT.-341_684) + (0.13 * %GT.-2000_2000) + (-0.06 * %GAGG.1_684) + (0.04 * %CT.-341_-126) + (-0.01 * %CTG.-2000_-1197) + (-0.03 * %AGA.342_684) + (-0.04 * %AGAA.685_2000) + (0.07 * %GAG.-1196_-685) + (0.02 * %GAGC.0_684) + (-0.05 * %AGA.-125_125) + (0.06 * %CT.1197_2000) + (-0.03 * %GACC.-2000_684) + (-0.07 * %GGAG.-2000_-1) + (-0.03 * %GGTC.-684_684) + (0.11 * %GAG.-2000_-1197) + (-0.05 * %GAGC.-341_684) + (-0.13 * %AT.-2000_2000) + (0.04 * %GTC.-684_684) + (0.02 * %GA.-341_-126) + (-0.13 * %GAG.-2000_-1) + (-0.28 * %CA.-2000_2000) + (-0.03 * %GGAG.685_2000) + (0.03 * %CT.-125_341) + (0.16 * %AG.126_341) + (-0.08 * %CCTC.-1925_684) + (0.14 * %AG.342_684) + (0.05 * %CTG.-2000_-685)
+
+Procedure completed.
+
+Duration: 3:17:01.330890
+
+Time:
+Preload: 435s
+Searching k-mers: 4183s
+Computing lattices and correlations: 5345s
+Generating matrices: 1788s
+Whole procedure: 11821s

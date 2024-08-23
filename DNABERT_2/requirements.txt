@@ -1,0 +1,9 @@
+einops
+transformers==4.29.2
+peft
+omegaconf
+torch
+evaluate
+accelerate
+scikit-learn
+torchinfo

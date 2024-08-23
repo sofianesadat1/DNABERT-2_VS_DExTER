@@ -1,0 +1,341 @@
+---
+title: "DExTER experiments"
+output: pdf_document
+---
+
+
+```{r include = FALSE}
+library("glmnet")
+library(gplots)
+library("ggplot2")
+library("ggrepel")
+library("reshape2")
+library("zoo")
+library("RColorBrewer")
+
+## Two useful functions
+
+cleanFeatureNames <- function(feat) {
+    ## use to clean variable names because R replace "-" and "_" by "."
+    feat <- sub("\\.\\.",".-",feat)
+    feat <- sub("_\\.","_-",feat)
+    feat <- sub("\\."," [",feat)
+    feat <- sub("_",",",feat)
+    feat <- sub("$","]",feat)
+    return(feat)
+}
+
+
+featureImportances <- function(res,training,ytrain,NB) {
+    ## Compute the importance of each variable in the trained models.
+    ##
+    ## We devised an \adhoc\ procedure based on LASSO penalty and
+    ## model error for measuring the importance of the different
+    ## variables of a model. Given a penalization constraint
+    ## $\lambda$, the LASSO procedure searches the model parameters
+    ## that minimize the prediction error (MSE) subject to the
+    ## constraint. In practice, in cv.glmnet() a grid of constraints
+    ## of decreasing values is initialized, and a model is learned for
+    ## each value. The result is a series of models with increasing
+    ## number of parameters. To identify the most important variables
+    ## of a model in a given condition, we took the model with 15
+    ## parameters and estimated the importance of each of the 15
+    ## variables in the following way. Given a variable $X$, its
+    ## importance was estimated by the difference of MSE between the
+    ## complete model and the model obtained by setting $\beta_X$ to
+    ## 0.
+    ## 
+    ## - res contains the models learned for each conditions
+    ## - training is the matrix of X training data
+    ## - ytrain is the matrix of Y values (one column for each condition)
+    ## - NB is the number of variables we want to compute the importance
+
+    lmin = which(res$lambda==res$lambda.min)
+    K <- ncol(ytrain) # number of conditions
+    
+    multiscores <- as.list(rep(NA,K))
+    for(k in 1:K) {
+        var <- which(res$glmnet.fit$beta[[k]][,lmin]!=0)
+        scores <- rep(NA,length(var))
+        names(scores) <- var
+        multiscores[[k]] <- scores
+    }
+    
+    for(k in 1:K) {
+        l = 1
+        while(length(which(res$glmnet.fit$beta[[k]][,l]!=0))<NB) l <- l+1
+        pred <- predict(object=res$glmnet.fit,newx=as.matrix(training),s=res$lambda[l])
+        acc <- Rsq(ytrain[,k],pred[,k,1])
+        newnames = which(res$glmnet.fit$beta[[k]][,l]!=0)
+        for(i in newnames) {    
+            tmp = res$glmnet.fit$beta[[k]][i,l]
+            res$glmnet.fit$beta[[k]][i,l] = 0.
+            pred <- predict(object=res$glmnet.fit,newx=as.matrix(training),s=res$lambda[l])
+            multiscores[[k]][as.character(i)] <- acc - Rsq(ytrain[,k],pred[,k,1])
+            res$glmnet.fit$beta[[k]][i,l] = tmp 
+        }
+    }
+    
+    return(multiscores)
+}
+
+```
+
+# Some statistics about the data
+
+## Distribution of expression values
+```{r qques-stats}
+if(file.exists("listexp.csv")) {
+    listrep = as.vector(t(read.table("listexp.csv")))
+    listrep <- listrep[2:length(listrep)]
+} else {
+    listrep = list.dirs(path = ".", full.names = TRUE,recursive=FALSE)
+    asupp <- c(grep("./experiences_cache",listrep),grep("./experiences_files",listrep),
+               grep("./multiexperiences_cache",listrep),grep("./multiexperiences_files",listrep))
+    if(length(asupp)>0) listrep = listrep[-asupp]
+}
+
+if(length(listrep)>15){ # if the number of condition is higher than 15 we pick up 15 conditions randomly
+    exemples = sample(listrep,15)
+} else exemples = listrep
+
+propmin <- rep(NA,length(exemples))
+names(propmin) <- exemples
+
+nbcol <- length(exemples) %/% 3
+if(length(exemples) %% 3 !=0) nbcol <- nbcol + 1
+
+par(mfrow=c(3,nbcol)) 
+for(i in 1:length(exemples)) {
+    d = exemples[i]
+    training <- read.table(paste(d,"models/all_domains.dat_training_set.log.matrix",sep="/"),header=T,row.names=1)
+    ytrain <- training[,1]
+    hist(ytrain,main=exemples[i])
+    lemin <- min(ytrain)
+    propmin[i] <- sum(ytrain==lemin)/length(ytrain)
+}
+
+```
+
+## Proportion of genes with zero value
+```{r fig.height=7, fig.width=14}
+barplot(propmin)
+```
+
+```{r include = FALSE, cache=TRUE}
+expcorr <- matrix(nrow=length(exemples),ncol=length(exemples))
+rownames(expcorr) <- exemples
+colnames(expcorr) <- exemples
+
+for(i in 2:length(exemples)) {
+    for(j in 1:(i-1)) {
+        d1 = exemples[i]
+        d2 = exemples[j]
+        t1 <- read.table(paste(d1,"models/all_domains.dat_testing_set.log.matrix",sep="/"),header=T,row.names=1)
+        t2 <- read.table(paste(d2,"models/all_domains.dat_testing_set.log.matrix",sep="/"),header=T,row.names=1)
+        expcorr[i,j] <- cor(t1[,1],t2[,1])
+    }
+}
+```
+## Correlation between conditions
+```{r fig.height=7, fig.width=14}
+pal <- colorRampPalette(c(rgb(0.96,0.96,0.1), rgb(0.9,0.1,0.1)), space = "rgb")
+heatmap.2(expcorr,Rowv=FALSE, Colv=FALSE,dendrogram="none",cellnote=format(expcorr,digit=2),trace="none",notecol="black",col=pal,margin=c(10,10))
+```
+
+
+
+```{r multi-response-model-training, include = FALSE, cache=TRUE, eval=TRUE}
+
+if(file.exists("listexp.csv")) {
+    listrep = as.vector(t(read.table("listexp.csv")))
+    listrep <- listrep[2:length(listrep)]
+} else {
+    listrep = list.dirs(path = ".", full.names = TRUE,recursive=FALSE)
+    asupp <- c(grep("./experiences_cache",listrep),grep("./experiences_files",listrep),
+               grep("./multiexperiences_cache",listrep),grep("./multiexperiences_files",listrep))
+    if(length(asupp)>0) listrep = listrep[-asupp]
+}
+
+
+Ytrain <- NULL
+Ytest <- NULL
+Xtrain <- NULL
+Xtest <- NULL
+dejala <- NULL
+
+## Takes the training and test sets defined by DExTER and run a first
+## set of cv.glmnet() with LASSO penalty (family = gaussian) on each
+## condition using the training set. For each model, identifies the
+## variables associated with lambda.min.
+
+for(i in 1:length(listrep)) {
+    d = listrep[i]
+    training <- read.table(paste(d,"models/all_domains.dat_training_set.log.matrix",sep="/"),header=T,row.names=1)
+    ytrain <- training[,1]
+    Ytrain <- cbind(Ytrain,ytrain)    
+    training <- training[,2:ncol(training)]
+
+    testing <- read.table(paste(d,"models/all_domains.dat_testing_set.log.matrix",sep="/"),header=T,row.names=1)
+    ytest <- testing[,1]
+    Ytest <- cbind(Ytest,ytest)
+    testing <- testing[,2:ncol(testing)]
+    
+    res = cv.glmnet(as.matrix(training),as.numeric(ytrain),family="gaussian",nfolds=10,keep=FALSE)
+    iLambdaMin = which(res$lambda==res$lambda.min)
+    variables <- names(which(res$glmnet.fit$beta[,iLambdaMin]!=0))
+    for(feat in variables) {
+        inter <- intersect(dejala,feat)
+        if(length(inter)==0) {
+            dejala <- c(dejala,feat)
+            Xtrain <- cbind(Xtrain,training[,feat])
+            Xtest <- cbind(Xtest,testing[,feat])            
+        }
+    }
+}
+
+colnames(Xtrain) <- dejala
+colnames(Xtest) <- dejala
+
+## Run a second multitask learning (family="mgaussian") on all
+## conditions using only the variables associated with lambda.min in
+## the first training.
+
+multires = cv.glmnet(as.matrix(Xtrain),as.matrix(Ytrain),family="mgaussian",nfolds=10)
+
+## Applies the multitask model to the test set
+multipred <- predict(object=multires$glmnet.fit,newx=as.matrix(Xtest),s=multires$lambda.min)
+```
+
+# Model accuracy and permutation experiments
+
+```{r multi-response-model-accuracy, include = FALSE, cache=TRUE, eval = TRUE}
+## Compute model accuracy on the test set
+multacc <- rep(NA,ncol(Ytest))
+for(i in 1:ncol(Ytest)) {
+    multacc[i] <- cor(Ytest[,i],multipred[,i,1],me="pe")
+}
+
+iLambdaMin = which(multires$lambda==multires$lambda.min)
+
+## compute variable importance
+scores <- featureImportances(multires,Xtrain,Ytrain,min(15,iLambdaMin))
+
+## Indentifies the best 5 variables
+NV <- 5 
+bestvar <- NULL
+for(k in 1:length(scores)) {
+    bestvar <- union(bestvar,colnames(Xtrain)[as.numeric(names(sort(-scores[[k]]))[1:NV])])
+}
+
+## Compute correlations between the most important variables and expression in each condition
+
+expe <- sub("\\./","",listrep)
+expe <- sub("/","",expe)
+
+lesvar <- NULL
+lescorr <- NULL
+lesexpe <- NULL
+
+for(v in bestvar) {
+    for(i in 1:ncol(Ytest)) {
+        lesvar <- c(lesvar,v)
+        lescorr <- c(lescorr,cor(Ytest[,i],Xtest[,v],me="pe"))
+        lesexpe <- c(lesexpe,expe[i])        
+    }
+}
+```
+
+
+
+```{r model-shuffling, include = FALSE, cache=TRUE}
+accMR <- matrix(nrow=length(listrep),ncol=length(listrep))
+for(i in 1:nrow(accMR)) {
+    for(j in 1:nrow(accMR)) {
+        accMR[i,j] <- cor(Ytest[,j],multipred[,i,1],me="pe")
+    }
+}
+```
+
+
+```{r plot-model-shuffling, fig.height=7, fig.width=15}
+couleurs <- rainbow(length(multacc))
+expe <- sub("\\./","",listrep)
+expe <- sub("/","",expe)
+
+centres <- barplot(multacc,space=0.1,border=NA,xaxt="n",ylim=c(0,0.9),cex.axis=2)
+text(centres, multacc+0.04 , paste(round(multacc*100),"%", sep="") ,cex=2)
+text(cex=2, x=centres-.2, y=0.02, expe, xpd=TRUE, srt=90,pos=4)
+
+for(j in 1:nrow(accMR)) points(centres,accMR[j,],ty="l",col=couleurs[j],lw=3)
+for(j in 1:nrow(accMR)) points(centres[j],multacc[j],col=couleurs[j],pch=19,lw=10)
+```
+
+
+#  Correlations between the most important variables and expression
+
+
+
+```{r plot-correlations, fig.height=7, fig.width=15}
+
+lesdata <- data.frame(lesvar,lescorr,lesexpe)
+
+bestv1 <- sample(bestvar,length(bestvar)/2)
+bestv2 <- setdiff(bestvar,bestv1)
+
+masel <- NULL
+for(v in bestv1) masel <- c(masel,which(lesdata$lesvar==v)[1])
+lesdata2 <- lesdata[masel,]
+lesdata2[,1] <- cleanFeatureNames(lesdata2[,1])
+masel <- NULL
+for(v in bestv2) masel <- c(masel,which(lesdata$lesvar==v)[ncol(Ytrain)])
+lesdata3 <- lesdata[masel,]
+lesdata3[,1] <- cleanFeatureNames(lesdata3[,1])
+
+
+ggplot(data = lesdata, aes(x = lesexpe, y = lescorr, group = lesvar)) + geom_line(aes(color=lesvar),size=1.5) + geom_point(aes(color=lesvar),size=3) + theme(legend.position="none",axis.text = element_text(size = 30),axis.title = element_text(size = 30),axis.text.x = element_text(angle = 20, hjust = 1)) + scale_x_discrete(limits=expe) + geom_label_repel(data=lesdata2,aes(label=lesvar,fill=factor(lesvar)),color="white",size=6) + geom_label_repel(data=lesdata3,aes(label=lesvar,fill=factor(lesvar)),color="white",size=6) + ylab("% Correlation") + xlab(NULL)
+```
+
+
+# Variable importance
+
+```{r feature-importance, include = FALSE, cache=FALSE, eval = TRUE}
+bestvarid <- NULL
+for(k in 1:length(scores)) {
+    bestvarid <- union(bestvarid,names(sort(-scores[[k]]))[1:NV])
+}
+
+lesvar <- NULL
+lesimp <- NULL
+lesexpe <- NULL
+
+for(v in bestvarid) {
+    for(i in 1:ncol(Ytest)) {
+        lesvar <- c(lesvar,colnames(Xtrain)[as.numeric(v)])
+        lesimp <- c(lesimp,scores[[i]][v])
+        lesexpe <- c(lesexpe,expe[i])        
+    }
+}
+
+```
+
+
+```{r plot-importances, fig.height=7, fig.width=15}
+lesdata <- data.frame(lesvar,lesimp,lesexpe)
+
+bestv1 <- sample(bestvar,length(bestvar)/2)
+bestv2 <- setdiff(bestvar,bestv1)
+
+masel <- NULL
+for(v in bestv1) masel <- c(masel,which(lesdata$lesvar==v)[1])
+lesdata2 <- lesdata[masel,]
+lesdata2[,1] <- cleanFeatureNames(lesdata2[,1])
+masel <- NULL
+for(v in bestv2) masel <- c(masel,which(lesdata$lesvar==v)[ncol(Ytrain)])
+lesdata3 <- lesdata[masel,]
+lesdata3[,1] <- cleanFeatureNames(lesdata3[,1])
+
+
+ggplot(data = lesdata, aes(x = lesexpe, y = lesimp, group = lesvar)) + geom_line(aes(color=lesvar),size=1.5) + geom_point(aes(color=lesvar),size=3) + theme(legend.position="none",axis.text = element_text(size = 30),axis.title = element_text(size = 30),axis.text.x = element_text(angle = 20, hjust = 1)) + scale_x_discrete(limits=expe) + geom_label_repel(data=lesdata2,aes(label=lesvar,fill=factor(lesvar)),color="white",size=6) + geom_label_repel(data=lesdata3,aes(label=lesvar,fill=factor(lesvar)),color="white",size=6) + ylab("Feature importance") + xlab(NULL)
+```
+

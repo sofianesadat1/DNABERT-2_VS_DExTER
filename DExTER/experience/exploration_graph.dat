@@ -1,0 +1,191 @@
+strict digraph G {
+    labelloc="t";
+    label="Exploration";
+    graph [fontname = "helvetica"];
+    node [fontname = "helvetica"];
+    edge [fontname = "helvetica"];
+    graph [rankdir=LR]
+    subgraph cluster_01 {
+        graph [bgcolor=snow3]
+        node [shape=plaintext]
+        label = "Legend";
+        "expansion" -> "   " [color=blue];
+        "  control  " -> "  " [color=green];
+        "segmentation" -> "    " [color=magenta];
+    }
+    subgraph cluster_02 {
+        graph [bgcolor=snow3]
+        node [shape=plaintext]
+        label = "IUPAC extended codes";
+        "R" -> "  A or G   ";
+        "Y" -> "  T or C   ";
+        "M" -> "  A or C   ";
+        "K" -> "  G or T   ";
+        "S" -> "  G or C   ";
+        "W" -> "  A or T   ";
+        "N" -> "    any    ";
+    }
+    subgraph cluster_03 {
+        node [shape=record, color=lightblue2, style=filled]
+        "\%AA[0;4000] rho: 3.214\%";
+        "\%AT[0;4000] rho: 27.699\%";
+        "\%AG[0;4000] rho: 2.940\%";
+        "\%AC[0;4000] rho: 26.496\%";
+        "\%TA[0;4000] rho: 27.266\%";
+        "\%TT[0;4000] rho: 10.387\%";
+        "\%TG[0;4000] rho: 18.895\%";
+        "\%TC[0;4000] rho: 20.969\%";
+        "\%GA[0;4000] rho: 7.403\%";
+        "\%GT[0;4000] rho: 17.890\%";
+        "\%GG[0;4000] rho: 9.245\%";
+        "\%GC[0;4000] rho: 4.260\%";
+        "\%CA[0;4000] rho: 23.979\%";
+        "\%CT[0;4000] rho: 20.544\%";
+        "\%CG[0;4000] rho: 15.672\%";
+        "\%CC[0;4000] rho: 0.710\%";
+        edge [arrowsize=1, color=magenta]
+        "\%AA[0;4000] rho: 3.214\%"	->	"\%AA[2025;4000] rho: 7.581\%"[label="135.85%"];
+        edge [arrowsize=1, color=magenta]
+        "\%AA[0;4000] rho: 3.214\%"	->	"\%AA[36;1295] rho: 5.156\%"[label="60.41%"];
+        edge [arrowsize=1, color=magenta]
+        "\%AT[0;4000] rho: 27.699\%"	->	"\%AT[784;2024] rho: 43.387\%"[label="56.64%"];
+        edge [arrowsize=1, color=magenta]
+        "\%AG[0;4000] rho: 2.940\%"	->	"\%AG[441;1295] rho: 25.812\%"[label="778.00%"];
+        edge [arrowsize=1, color=magenta]
+        "\%AG[0;4000] rho: 2.940\%"	->	"\%AG[2025;3024] rho: 12.885\%"[label="338.31%"];
+        edge [arrowsize=1, color=magenta]
+        "\%AG[0;4000] rho: 2.940\%"	->	"\%AG[0;440] rho: 12.500\%"[label="325.21%"];
+        edge [arrowsize=1, color=magenta]
+        "\%AG[0;4000] rho: 2.940\%"	->	"\%AG[1296;2024] rho: 8.201\%"[label="178.98%"];
+        edge [arrowsize=1, color=magenta]
+        "\%AG[0;4000] rho: 2.940\%"	->	"\%AG[3025;4000] rho: 4.739\%"[label="61.19%"];
+        edge [arrowsize=1, color=magenta]
+        "\%AC[0;4000] rho: 26.496\%"	->	"\%AC[784;2024] rho: 41.703\%"[label="57.40%"];
+        edge [arrowsize=1, color=magenta]
+        "\%TA[0;4000] rho: 27.266\%"	->	"\%TA[784;2024] rho: 43.096\%"[label="58.05%"];
+        edge [arrowsize=1, color=magenta]
+        "\%TT[0;4000] rho: 10.387\%"	->	"\%TT[225;3024] rho: 13.806\%"[label="32.92%"];
+        edge [arrowsize=1, color=magenta]
+        "\%TG[0;4000] rho: 18.895\%"	->	"\%TG[441;2024] rho: 42.703\%"[label="126.00%"];
+        edge [arrowsize=1, color=magenta]
+        "\%TG[0;4000] rho: 18.895\%"	->	"\%TG[9;440] rho: 20.541\%"[label="8.71%"];
+        edge [arrowsize=1, color=magenta]
+        "\%TC[0;4000] rho: 20.969\%"	->	"\%TC[441;2024] rho: 31.914\%"[label="52.19%"];
+        edge [arrowsize=1, color=magenta]
+        "\%GA[0;4000] rho: 7.403\%"	->	"\%GA[441;2024] rho: 27.709\%"[label="274.28%"];
+        edge [arrowsize=1, color=magenta]
+        "\%GA[0;4000] rho: 7.403\%"	->	"\%GA[0;440] rho: 14.154\%"[label="91.19%"];
+        edge [arrowsize=1, color=magenta]
+        "\%GA[0;4000] rho: 7.403\%"	->	"\%GA[2025;3024] rho: 8.053\%"[label="8.78%"];
+        edge [arrowsize=1, color=magenta]
+        "\%GT[0;4000] rho: 17.890\%"	->	"\%GT[36;2024] rho: 41.533\%"[label="132.16%"];
+        edge [arrowsize=1, color=magenta]
+        "\%GG[0;4000] rho: 9.245\%"	->	"\%GG[441;2024] rho: 24.268\%"[label="162.49%"];
+        edge [arrowsize=1, color=magenta]
+        "\%GG[0;4000] rho: 9.245\%"	->	"\%GG[9;440] rho: 10.003\%"[label="8.19%"];
+        edge [arrowsize=1, color=magenta]
+        "\%GC[0;4000] rho: 4.260\%"	->	"\%GC[9;2024] rho: 21.941\%"[label="415.05%"];
+        edge [arrowsize=1, color=magenta]
+        "\%GC[0;4000] rho: 4.260\%"	->	"\%GC[2025;3024] rho: 13.016\%"[label="205.54%"];
+        edge [arrowsize=1, color=magenta]
+        "\%GC[0;4000] rho: 4.260\%"	->	"\%GC[3025;4000] rho: 8.898\%"[label="108.86%"];
+        edge [arrowsize=1, color=magenta]
+        "\%CA[0;4000] rho: 23.979\%"	->	"\%CA[784;2024] rho: 39.554\%"[label="64.95%"];
+        edge [arrowsize=1, color=magenta]
+        "\%CT[0;4000] rho: 20.544\%"	->	"\%CT[784;2024] rho: 33.362\%"[label="62.40%"];
+        edge [arrowsize=1, color=magenta]
+        "\%CG[0;4000] rho: 15.672\%"	->	"\%CG[9;2024] rho: 25.076\%"[label="60.01%"];
+        edge [arrowsize=1, color=magenta]
+        "\%CC[0;4000] rho: 0.710\%"	->	"\%CC[441;2024] rho: 18.260\%"[label="2471.95%"];
+        edge [arrowsize=1, color=magenta]
+        "\%CC[0;4000] rho: 0.710\%"	->	"\%CC[2025;4000] rho: 12.767\%"[label="1698.19%"];
+        edge [arrowsize=1, color=magenta]
+        "\%CC[0;4000] rho: 0.710\%"	->	"\%CC[0;440] rho: 4.164\%"[label="486.50%"];
+        edge [arrowsize=1, color=blue]
+        "\%AA[2025;4000] rho: 7.581\%"	->	"\%AAA[2025;4000] rho: 10.587\%"[label="39.65%"];
+        edge [arrowsize=1, color=green]
+        "\%AA[2025;4000] rho: 7.581\%"	->	"\%AAA[2025;4000] rho: 10.587\%"[label="39.65%"];
+        edge [arrowsize=1, color=green]
+        "\%AA[2025;4000] rho: 7.581\%"	->	"\%AAA[2025;4000] rho: 10.587\%"[label="39.65%"];
+        edge [arrowsize=1, color=magenta]
+        "\%AAA[2025;4000] rho: 10.587\%"	->	"\%AAA[36;1295] rho: 12.563\%"[label="18.66%"];
+        edge [arrowsize=1, color=magenta]
+        "\%AAA[2025;4000] rho: 10.587\%"	->	"\%AAA[2025;3024] rho: 11.806\%"[label="11.51%"];
+        edge [arrowsize=1, color=blue]
+        "\%AA[36;1295] rho: 5.156\%"	->	"\%AAA[36;1295] rho: 12.563\%"[label="143.65%"];
+        edge [arrowsize=1, color=green]
+        "\%AA[36;1295] rho: 5.156\%"	->	"\%AAA[36;1295] rho: 12.563\%"[label="143.65%"];
+        edge [arrowsize=1, color=green]
+        "\%AA[36;1295] rho: 5.156\%"	->	"\%AAA[36;1295] rho: 12.563\%"[label="143.65%"];
+        edge [arrowsize=1, color=blue]
+        "\%AG[3025;4000] rho: 4.739\%"	->	"\%GAG[3025;4000] rho: 6.541\%"[label="38.03%"];
+        edge [arrowsize=1, color=green]
+        "\%AG[3025;4000] rho: 4.739\%"	->	"\%GAG[3025;4000] rho: 6.541\%"[label="38.03%"];
+        edge [arrowsize=1, color=green]
+        "\%GA[3025;4000] rho: 1.993\%"	->	"\%GAG[3025;4000] rho: 6.541\%"[label="228.19%"];
+        edge [arrowsize=1, color=blue]
+        "\%AG[3025;4000] rho: 4.739\%"	->	"\%CAG[3025;4000] rho: 7.213\%"[label="52.22%"];
+        edge [arrowsize=1, color=green]
+        "\%AG[3025;4000] rho: 4.739\%"	->	"\%CAG[3025;4000] rho: 7.213\%"[label="52.22%"];
+        edge [arrowsize=1, color=green]
+        "\%CA[3025;4000] rho: 4.636\%"	->	"\%CAG[3025;4000] rho: 7.213\%"[label="55.59%"];
+        edge [arrowsize=1, color=blue]
+        "\%TT[225;3024] rho: 13.806\%"	->	"\%TTT[225;3024] rho: 17.370\%"[label="25.81%"];
+        edge [arrowsize=1, color=green]
+        "\%TT[225;3024] rho: 13.806\%"	->	"\%TTT[225;3024] rho: 17.370\%"[label="25.81%"];
+        edge [arrowsize=1, color=green]
+        "\%TT[225;3024] rho: 13.806\%"	->	"\%TTT[225;3024] rho: 17.370\%"[label="25.81%"];
+        edge [arrowsize=1, color=magenta]
+        "\%TTT[225;3024] rho: 17.370\%"	->	"\%TTT[0;3024] rho: 18.096\%"[label="4.18%"];
+        edge [arrowsize=1, color=blue]
+        "\%GA[0;440] rho: 14.154\%"	->	"\%GAT[0;440] rho: 17.635\%"[label="24.60%"];
+        edge [arrowsize=1, color=green]
+        "\%AT[0;440] rho: 11.092\%"	->	"\%GAT[0;440] rho: 17.635\%"[label="58.99%"];
+        edge [arrowsize=1, color=green]
+        "\%GA[0;440] rho: 14.154\%"	->	"\%GAT[0;440] rho: 17.635\%"[label="24.60%"];
+        edge [arrowsize=1, color=magenta]
+        "\%GAT[0;440] rho: 17.635\%"	->	"\%GAT[1;783] rho: 21.303\%"[label="20.80%"];
+        edge [arrowsize=1, color=blue]
+        "\%GC[3025;4000] rho: 8.898\%"	->	"\%GCA[3025;4000] rho: 9.931\%"[label="11.61%"];
+        edge [arrowsize=1, color=green]
+        "\%CA[3025;4000] rho: 4.636\%"	->	"\%GCA[3025;4000] rho: 9.931\%"[label="114.21%"];
+        edge [arrowsize=1, color=green]
+        "\%GC[3025;4000] rho: 8.898\%"	->	"\%GCA[3025;4000] rho: 9.931\%"[label="11.61%"];
+        edge [arrowsize=1, color=blue]
+        "\%AAA[36;1295] rho: 12.563\%"	->	"\%AAAA[36;1295] rho: 16.240\%"[label="29.28%"];
+        edge [arrowsize=1, color=green]
+        "\%AAA[36;1295] rho: 12.563\%"	->	"\%AAAA[36;1295] rho: 16.240\%"[label="29.28%"];
+        edge [arrowsize=1, color=green]
+        "\%AAA[36;1295] rho: 12.563\%"	->	"\%AAAA[36;1295] rho: 16.240\%"[label="29.28%"];
+        edge [arrowsize=1, color=blue]
+        "\%TTT[0;3024] rho: 18.096\%"	->	"\%TTTA[0;3024] rho: 23.047\%"[label="27.36%"];
+        edge [arrowsize=1, color=green]
+        "\%TTA[0;3024] rho: 16.992\%"	->	"\%TTTA[0;3024] rho: 23.047\%"[label="35.64%"];
+        edge [arrowsize=1, color=green]
+        "\%TTT[0;3024] rho: 18.096\%"	->	"\%TTTA[0;3024] rho: 23.047\%"[label="27.36%"];
+        edge [arrowsize=1, color=magenta]
+        "\%TTTA[0;3024] rho: 23.047\%"	->	"\%TTTA[225;3024] rho: 23.287\%"[label="1.04%"];
+        edge [arrowsize=1, color=blue]
+        "\%AAAA[36;1295] rho: 16.240\%"	->	"\%AAAAA[36;1295] rho: 18.194\%"[label="12.03%"];
+        edge [arrowsize=1, color=green]
+        "\%AAAA[36;1295] rho: 16.240\%"	->	"\%AAAAA[36;1295] rho: 18.194\%"[label="12.03%"];
+        edge [arrowsize=1, color=green]
+        "\%AAAA[36;1295] rho: 16.240\%"	->	"\%AAAAA[36;1295] rho: 18.194\%"[label="12.03%"];
+        "\%GT[0;4000] rho: 17.890\%";
+        "\%AA[0;4000] rho: 3.214\%";
+        "\%GA[0;4000] rho: 7.403\%";
+        "\%CC[0;4000] rho: 0.710\%";
+        "\%AG[0;4000] rho: 2.940\%";
+        "\%TG[0;4000] rho: 18.895\%";
+        "\%AT[0;4000] rho: 27.699\%";
+        "\%GG[0;4000] rho: 9.245\%";
+        "\%AC[0;4000] rho: 26.496\%";
+        "\%TC[0;4000] rho: 20.969\%";
+        "\%CG[0;4000] rho: 15.672\%";
+        "\%CT[0;4000] rho: 20.544\%";
+        "\%TT[0;4000] rho: 10.387\%";
+        "\%GC[0;4000] rho: 4.260\%";
+        "\%TA[0;4000] rho: 27.266\%";
+        "\%CA[0;4000] rho: 23.979\%";
+}
+}

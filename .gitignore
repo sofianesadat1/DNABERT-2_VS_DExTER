@@ -1,0 +1,7 @@
+dex_annotations_impotant.csv
+final_result.csv
+**/occurence/
+.*csv
+**/data/
+**/img/
+**/models/

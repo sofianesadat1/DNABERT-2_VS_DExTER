@@ -23,4 +23,3 @@ This repository contains the code and resources I used during my internship from
 - **`other_notebooks`**: These notebooks were used throughout my internship to obtain various results. You can understand the code by reviewing the titles of each code block.
 
 ## 
-send_by_dexter_guys is a folder that encapsulates the files that have been sent to me for they contain gene sequence of the grch37
